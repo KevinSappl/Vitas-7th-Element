@@ -10,31 +10,33 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button playButton;
     MediaPlayer mp;
-    TextView tv;
     boolean isPlaying = false;
+    private int currentPosition = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         playButton = (Button) findViewById(R.id.playVitas);
-         playButton.setOnClickListener(this);
+        playButton = findViewById(R.id.playVitas);
+        playButton.setOnClickListener(this);
+        mp = MediaPlayer.create(this, R.raw.vitas);
+        mp.setLooping(true);
     }
 
     @Override
     public void onClick(View v) {
 
-        if(isPlaying){
+        if (isPlaying) {
             mp.pause();
+            currentPosition = mp.getCurrentPosition();
             isPlaying = false;
-        }
-        mp = MediaPlayer.create(this, R.raw.vitas);
-
-        if(!isPlaying){
+        } else {
+            mp.seekTo(currentPosition);
             mp.start();
             isPlaying = true;
         }
-
-
     }
+
+
 }
